@@ -53,7 +53,8 @@ _mainScript_() {
     # _makeSymlink_ "${gitRoot}/config/dotfiles/Gemfile"              "${HOME}/.Gemfile"
     # _makeSymlink_ "${gitRoot}/config/dotfiles/gemrc"                "${HOME}/.gemrc"
     # _makeSymlink_ "${gitRoot}/config/dotfiles/gitattributes"        "${HOME}/.gitattributes"
-    _makeSymlink_ "${gitRoot}/gitconfig"            "${HOME}/.gitconfig"
+    cp "${gitRoot}/gitconfig"            "${HOME}/.gitconfig"
+    # _makeSymlink_ "${gitRoot}/gitconfig"            "${HOME}/.gitconfig"
     _makeSymlink_ "${gitRoot}/gitignore"            "${HOME}/.gitignore"
     # _makeSymlink_ "${gitRoot}/config/dotfiles/hushlogin"            "${HOME}/.hushlogin"
     # _makeSymlink_ "${gitRoot}/config/dotfiles/inputrc"              "${HOME}/.inputrc"
@@ -180,7 +181,8 @@ _mainScript_() {
       # _execute_ -vp "brew cask install ngrok"
       # _execute_ -vp "brew cask install paw"
       # _execute_ -vp "brew cask install tower2"
-      _execute_ -vp "brew cask install visual-studio-code"
+      _execute_ -vp "brew install --cask drawio"
+      _execute_ -vp "brew install --cask visual-studio-code"
       #_execute_ -vp "mas install 498944723"   # JPEGmini
     }
     _brewDevelopment_
@@ -222,9 +224,13 @@ _mainScript_() {
     _brewPrimaryComputers_
 
     _execute_ -vp "brew cleanup"
-    _execute_ -vp "brew cask cleanup"
   }
   _homebrew_
+
+  # _gitCredentials_() {
+  #   git config --global credential.helper osxkeychain
+  # }
+  # _gitCredentials_
 
   _nodeJS_() {
     _seekConfirmation_ "Install node.js and packages??" || return 0
@@ -653,8 +659,8 @@ _mainScript_() {
     info "Set the icon size of Dock items to 36 pixels"
     defaults write com.apple.dock tilesize -int 36
 
-    info "Show only open applications in the Dock"
-    defaults write com.apple.dock static-only -bool true
+    # info "Show only open applications in the Dock"
+    # defaults write com.apple.dock static-only -bool true
 
     info "Minimize windows into their application’s icon"
     defaults write com.apple.dock minimize-to-application -bool true

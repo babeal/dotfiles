@@ -125,19 +125,19 @@
     # Use `hexdump` to diff binary files
     textconv = hexdump -v -C
 
-[difftool "Kaleidoscope"]
+# [difftool "Kaleidoscope"]
 
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+# 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 
-[diff]
+# [diff]
 
-	# Detect copies as well as renames
-	renames = copies
-	tool = Kaleidoscope
+# 	# Detect copies as well as renames
+# 	renames = copies
+# 	tool = Kaleidoscope
 
-[difftool]
+# [difftool]
 
-	prompt = false
+# 	prompt = false
 
 [help]
 
@@ -153,12 +153,12 @@
 
   decorate = short
 
-[mergetool "Kaleidoscope"]
+# [mergetool "Kaleidoscope"]
 
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
-	keepBackup = true
-	prompt = false
+# 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+# 	trustExitCode = true
+# 	keepBackup = true
+# 	prompt = false
 
 [merge]
 
@@ -191,24 +191,24 @@
   # show = diff-so-fancy | less --tabs=1,5 -RFX
 
 # Rewrites of repo paths
-[url "git@github.com:"]
-  insteadOf = "gh:"
-  insteadOf = "git://github.com"
-  pushInsteadOf = "github:"
-  pushInsteadOf = "git://github.com/"
-  pushInsteadOf = "https://github.com/"
+# [url "git@github.com:"]
+#   insteadOf = "gh:"
+#   insteadOf = "git://github.com"
+#   pushInsteadOf = "github:"
+#   pushInsteadOf = "git://github.com/"
+#   pushInsteadOf = "https://github.com/"
 
-[url "git://github.com/"]
-  insteadOf = "github:"
+# [url "git://github.com/"]
+#   insteadOf = "github:"
 
-[url "git@gist.github.com:"]
-  insteadOf = "gst:"
-  pushInsteadOf = "gist:"
-  pushInsteadOf = "git://gist.github.com/"
-  pushInsteadOf = "https://gist.github.com/"
+# [url "git@gist.github.com:"]
+#   insteadOf = "gst:"
+#   pushInsteadOf = "gist:"
+#   pushInsteadOf = "git://gist.github.com/"
+#   pushInsteadOf = "https://gist.github.com/"
 
-[url "git://gist.github.com/"]
-  insteadOf = "gist:"
+# [url "git://gist.github.com/"]
+#   insteadOf = "gist:"
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
