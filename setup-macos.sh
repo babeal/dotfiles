@@ -145,6 +145,7 @@ _mainScript_() {
       _execute_ -vp "brew install tree" # http://mama.indstate.edu/users/ice/tree/ - recursive directory listing
       _execute_ -vp "brew install wget" # installs wget
 
+      _execute_ -vp "brew install --cask cheatsheat" # https://www.mediaatelier.com/CheatSheet/ - installs cheatsheet 
       # _execute_ -vp "brew cask install alfred"
       # _execute_ -vp "brew cask install istat-menus"
       # _execute_ -vp "brew cask install iterm2"
