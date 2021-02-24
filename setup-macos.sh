@@ -146,9 +146,9 @@ _mainScript_() {
       _execute_ -vp "brew install wget" # installs wget
 
       _execute_ -vp "brew install --cask cheatsheat" # https://www.mediaatelier.com/CheatSheet/ - installs cheatsheet 
-      # _execute_ -vp "brew cask install alfred"
+      _execute_ -vp "brew install --cask iterm2"
+      
       # _execute_ -vp "brew cask install istat-menus"
-      # _execute_ -vp "brew cask install iterm2"
       # _execute_ -vp "brew cask install keybase"
 
     # _brewMedia_() {
@@ -190,7 +190,8 @@ _mainScript_() {
 
     _brewPrimaryComputers_() {
       _seekConfirmation_ "Homebrew installs for primary computers?" || return 0
-      execute -vp "brew install --cask tunnelblick"
+      _execute_ -vp "brew install --cask tunnelblick"
+      _execute_ -vp "brew install --cask alfred"
       # _execute_ -vp "brew install pam_yubico" 
       # _execute_ -vp "brew cask install discord"
       # _execute_ -vp "brew cask install fantastical"
