@@ -184,6 +184,7 @@ _mainScript_() {
       # _execute_ -vp "brew cask install tower2"
       _execute_ -vp "brew install --cask drawio"
       _execute_ -vp "brew install --cask visual-studio-code"
+      _execute_ -vp "brew install --cask dotnet-sdk"
       #_execute_ -vp "mas install 498944723"   # JPEGmini
     }
     _brewDevelopment_
