@@ -147,6 +147,7 @@ _mainScript_() {
 
       _execute_ -vp "brew install --cask cheatsheat" # https://www.mediaatelier.com/CheatSheet/ - installs cheatsheet 
       _execute_ -vp "brew install --cask iterm2"
+      _execute_ -vp "brew install --cask obsidian" # https://obsidian.md - installs obsidian mark down notes application
       
       # _execute_ -vp "brew cask install istat-menus"
       # _execute_ -vp "brew cask install keybase"
