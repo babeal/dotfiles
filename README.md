@@ -1,5 +1,7 @@
 # DOTFILES
 
+Clone repository to `~/dev/. Then run the command `cd ~/dev/dotfiles && ./install.sh`
+
 ## Resources
 
 - [Awesome Bash](https://github.com/awesome-lists/awesome-bash)
