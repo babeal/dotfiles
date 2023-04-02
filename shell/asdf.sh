@@ -1,5 +1,5 @@
 
 # ASDF Package Manager
-local asdfInstall="/usr/local/opt/asdf" # $(brew --prefix asdf)
-[[ -s "$asdfInstall/asdf.sh" ]] && source "$asdfInstall/asdf.sh"
-[[ -s "$asdfInstall/etc/completions/asdf.bash" ]] && source "$asdfInstall/etc/completions/asdf.bash"
+# supposefly --prefix asdf requires ruby which makes it slow where --prefix is fast
+local pkg_root=$(brew --prefix)
+[[ -s "$pkg_root/opt/asdf/libexec/asdf.sh" ]] && source "$pkg_root/opt/asdf/libexec/asdf.sh"
