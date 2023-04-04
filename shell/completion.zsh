@@ -16,7 +16,7 @@ zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete _match
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'                              # matches case insensitive for lowercase
 zstyle ':completion:*' insert-tab pending                                        # pasting with tabs doesn't perform completion
 zstyle ':completion:*' menu select=2                                             # menu if nb items > 2
-zstyle ':completion:*' special-dirs false                                        # Don't show dotfiles in completions
+zstyle ':completion:*' special-dirs true                                         # show dotfiles in completions
 
 zstyle ':completion:*:functions' ignored-patterns '_*' #Ignore completion functions for commands you don’t have
 zstyle ':completion:*' squeeze-slashes true            #f you end up using a directory as argument, this will remove the trailing slash (usefull in ln)
