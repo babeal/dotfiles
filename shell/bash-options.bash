@@ -1,9 +1,9 @@
 if [[ ${SHELL##*/} == "bash" ]]; then
     ## GENERAL PREFERENCES ##
     export BLOCKSIZE=1k
-    export LANG="en_US"
     # test if locale is available (run apt-get install -y locales)
     if locale -a | grep -q "en_US.UTF-8"; then
+        export LANG="en_US"
         export LC_ALL="en_US.UTF-8"
     fi
     export LESS_TERMCAP_md="${yellow}" # Highlight section titles in manual pages
