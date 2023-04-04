@@ -1,4 +1,4 @@
-if [[ ${SHELL##*/} == "bash" ]]; then
+if [[ -n ${BASH} ]]; then
     ## GENERAL PREFERENCES ##
     export BLOCKSIZE=1k
     # test if locale is available (run apt-get install -y locales)

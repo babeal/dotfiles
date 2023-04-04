@@ -27,9 +27,9 @@ alias sc='shellcheck --exclude=2001,2148' # dev: Preferred shellcheck implementa
     && alias top="htop"
 
 # Rebuild current shell environment when changes are made to dotfiles
-if [[ ${SHELL##*/} == "bash" ]]; then
+if [[ -n ${BASH} ]]; then
     alias sourcea='source ${HOME}/.bash_profile' # system: Source .bash_profile or .zshrc
-elif [[ ${SHELL##*/} == "zsh" ]]; then
+elif [[ -n ${ZSH_NAME} ]]; then
     alias sourcea='source ${HOME}/.zshrc' # system: Source .bash_profile or .zshrc
 fi
 

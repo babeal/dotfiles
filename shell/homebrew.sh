@@ -35,7 +35,7 @@ if command -v brew &>/dev/null; then
         eval "$(${brew_root}/bin/brew shellenv)"
     fi
 
-    if [[ ${SHELL##*/} == "bash" ]] && [ -f "/usr/local/etc/profile.d/bash_completion.sh" ]; then
+    if [[ -n ${BASH} ]] && [ -f "/usr/local/etc/profile.d/bash_completion.sh" ]; then
         source "/usr/local/etc/profile.d/bash_completion.sh"
     fi
 
