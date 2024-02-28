@@ -1,6 +1,8 @@
 # DOTFILES
 
-Clone repository to `~/dev/. Then run the command `cd ~/dev/dotfiles && ./install.sh`
+1. Clone repository to `~/dev/.`
+2. Then run the command `cd ~/dev/dotfiles && ./install.sh`
+3. Edit `~/.gitconfig.local` and `~/.tool-versions`
 
 ## Resources
 
