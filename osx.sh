@@ -75,3 +75,6 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 # Always show scrollbars
 # Possible values: `WhenScrolling`, `Automatic` and `Always`
 defaults write NSGlobalDomain AppleShowScrollBars -string 'Always'
+
+# Click wallpaper to reveal desktop: false (only in stage manager)
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
