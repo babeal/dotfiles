@@ -1,3 +1,6 @@
 [user]
 	email = <email>
 	name = <name>
+
+[credential]
+	helper = osxkeychain
