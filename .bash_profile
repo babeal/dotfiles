@@ -7,6 +7,12 @@ case $- in
 esac
 [ -z "$PS1" ] && return
 
+if [ -f "${HOME}/.dotfiles.pre.local" ]; then
+    # shellcheck disable=SC1091
+    source "${HOME}/.dotfiles.pre.local"
+fi
+
+
 # Location of this repository
 REPO_ROOT="${HOME}/dev"
 
@@ -58,7 +64,7 @@ cd() {
     ll
 }
 
-if [ -f "${HOME}/.dotfiles.local" ]; then
+if [ -f "${HOME}/.dotfiles.post.local" ]; then
     # shellcheck disable=SC1091
-    source "${HOME}/.dotfiles.local"
+    source "${HOME}/.dotfiles.post.local"
 fi

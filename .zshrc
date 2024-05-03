@@ -8,6 +8,11 @@ case $- in
 esac
 [ -z "$PS1" ] && return
 
+if [ -f "${HOME}/.dotfiles.pre.local" ]; then
+    # shellcheck disable=SC1091
+    source "${HOME}/.dotfiles.pre.local"
+fi
+
 # Location of this repository
 REPO_ROOT="${HOME}/dev"
 
@@ -280,6 +285,6 @@ if command -v op &>/dev/null; then
     eval "$(op completion zsh)"; compdef _op op
 fi
 
-if [ -f "${HOME}/.dotfiles.local" ]; then
-    source "${HOME}/.dotfiles.local"
+if [ -f "${HOME}/.dotfiles.post.local" ]; then
+    source "${HOME}/.dotfiles.post.local"
 fi
