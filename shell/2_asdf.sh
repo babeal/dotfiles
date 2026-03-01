@@ -1,7 +1,7 @@
 
 # ASDF Package Manager
-export ASDF_DATA_DIR="$HOME/.asdf"
-export PATH="$ASDF_DATA_DIR/shims:$PATH"
+# export ASDF_DATA_DIR="$HOME/.asdf"
+# export PATH="$ASDF_DATA_DIR/shims:$PATH"
 # if command -v brew &>/dev/null; then
 #     # supposefly --prefix asdf requires ruby which makes it slow where --prefix is fast
 #     local pkg_root=$(brew --prefix)
