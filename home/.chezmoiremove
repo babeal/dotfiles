@@ -1,0 +1,8 @@
+# Files to remove from home directory
+# List files that should be removed when chezmoi is applied
+
+# Old dotfiles that will be replaced
+~/.dotfiles
+
+# Potentially conflicting files
+# Add here as needed during migration

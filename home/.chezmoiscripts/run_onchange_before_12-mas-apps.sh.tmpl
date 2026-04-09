@@ -1,0 +1,45 @@
+{{- if and (eq .chezmoi.os "darwin") .install_packages (eq (env "CI") "") -}}
+#!/usr/bin/env bash
+
+{{ template "shared_script_utils.bash" . }}
+
+header "Install Mac App Store applications"
+
+if ! mas account &>/dev/null; then
+    info "Skipping MAS apps — not signed into App Store"
+    _safeExit_
+fi
+
+set +e
+brew bundle --file=/dev/stdin <<EOF
+
+{{/* MAS Apps */}}
+{{ range .packages.mas.common.apps -}}
+mas {{ .name | quote }}, id: {{ .id }}
+{{ end -}}
+{{ if .dev_computer -}}
+{{ range .packages.mas.dev.apps -}}
+mas {{ .name | quote }}, id: {{ .id }}
+{{ end -}}
+{{ end -}}
+{{ if .personal_computer -}}
+{{ range .packages.mas.personal.apps -}}
+mas {{ .name | quote }}, id: {{ .id }}
+{{ end -}}
+{{ end -}}
+EOF
+_bundle_exit=$?
+set -e
+
+if [[ $_bundle_exit -ne 0 ]]; then
+    warning "Some MAS apps failed to install — review output above"
+    mkdir -p "${HOME}/.local/state/dotfiles"
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") mas-bundle exit=${_bundle_exit}" \
+        >> "${HOME}/.local/state/dotfiles/install-failures.log"
+fi
+
+success "Mac App Store applications complete"
+
+_safeExit_
+
+{{- end }}

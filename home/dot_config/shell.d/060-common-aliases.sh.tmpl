@@ -1,0 +1,60 @@
+alias wget="wget --hsts-file='${XDG_DATA_HOME}/wget-hsts'"
+
+alias cd..='cd ../'
+alias ..='cd ../'
+alias ...='cd ../../'
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../../'
+alias .6='cd ../../../../../../'
+alias ~="cd ~"
+alias ax='chmod a+x'                   # system: make file executable
+alias path='echo -e ${PATH//:/\\n}'    # system: Echo all executable Paths
+alias fpath='echo -e ${FPATH//:/\\n}'  # system: Echo fpath
+alias untar='tar -zxvf'                # Extract tar.gz file
+alias mktar='tar -cvzf'                # Create a tar.gz file
+alias numfiles='echo $(ls -1 | wc -l)' # Count of non-hidden files in current dir
+
+####################### LIST DIRECTORY CONTENTS #######################
+{{- if lookPath "eza" }}
+# List filenames on one line
+alias ls='eza --git --icons=auto'
+
+# List filenames with long format
+alias l='eza -l --classify=auto --icons=auto {{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64")) }} --git{{ end }}'
+
+# List all files
+alias ll='eza -lah --classify=auto --icons=auto {{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64")) }} --git{{ end }}'
+
+# List all files with directory sizes
+alias lls='eza -lah --classify=auto --icons=auto --total-size {{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64")) }} --git{{ end }}'
+
+# List all files with directory sizes, sorted by size
+alias lss='eza -lah --classify=auto --sort=size --icons=auto --total-size {{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64")) }} --git{{ end }}'
+
+# List files by last modified
+alias llm='ll --sort=modified'
+
+# List files with attributes
+alias la='eza -lbhHigUmuSa --icons=auto {{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64")) }} --git{{ end }}'
+
+# List files with extended attributes
+alias lx='eza -lbhHigUmuSa@ --icons=auto {{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64")) }} --git{{ end }}'
+
+# List files in a tree view
+alias lt='eza --tree --level=2 --icons=auto'
+
+# List files in a tree view with long format
+alias llt='eza -lah --classify=always --tree --level=2 --icons=auto'
+
+# List files modified today
+alias ltt='eza -lah --classify=always --icons=auto | grep "$(date +"%d %b")"'
+{{- else if eq .chezmoi.os "darwin" }}
+alias ls="ls -G"
+alias ll='ls -FGlAhpv'
+alias ltt='ls -FlAhpv| grep "$(date +"%d %b")"' # List files modified this day
+{{- else }}
+alias ls="ls --color=auto"
+alias ll='ls -FlAhpv --color=auto'
+alias ltt='ls -FlAhpv| grep "$(date +"%d %b")"' # List files modified today
+{{- end }}

@@ -1,0 +1,45 @@
+{{- $name := promptStringOnce . "name" "Full name" "Brandt Beal" -}} 
+{{- $github_user := promptStringOnce . "github_user" "GitHub username" "babeal" -}} 
+{{- $email := promptStringOnce . "email" "Email address for Git" -}}
+{{- $dev_computer := promptBoolOnce . "dev_computer" "Do development on this computer" -}}
+{{- $personal_computer := promptBoolOnce . "personal_computer" "Is this a personal computer" -}}
+{{- $is_server := promptBoolOnce . "is_server" "Is this a server (disables Homebrew and GUI tooling)" -}}
+{{- $install_packages := promptBoolOnce . "install_packages" "Install and manage packages via chezmoi" -}}
+{{- $use_secrets := promptBoolOnce . "use_secrets" "Use Bitwarden CLI for secrets" -}}
+{{- /* TODO: use_secrets is not yet implemented. Keep false until Bitwarden CLI integration is built. See docs/design/ssh-keys-and-bitwarden.md */ -}}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    github_user = {{ $github_user | quote }}
+    dev_computer = {{ $dev_computer }}
+    personal_computer = {{ $personal_computer }}
+    is_server = {{ $is_server }}
+    install_packages = {{ $install_packages }}
+    use_secrets = {{ $use_secrets }}
+    xdgCacheDir       = "{{ .chezmoi.homeDir }}/.cache"
+    xdgConfigDir      = "{{ .chezmoi.homeDir }}/.config"
+    xdgDataDir        = "{{ .chezmoi.homeDir }}/.local/share"
+    xdgStateDir       = "{{ .chezmoi.homeDir }}/.local/state"
+
+[hooks.read-source-state.pre]
+    command = ".local/share/chezmoi/home/.install-core-packages.sh"
+
+[diff]
+    {{ if lookPath "delta" -}}command = "delta"
+    {{ else -}}pager = "less -R"
+    {{ end -}}
+    exclude = ["scripts"]
+
+{{ if lookPath "code" -}}
+[edit]
+    args    = ["-r", "--wait"]
+    command = "code"
+
+[merge]
+    command = "bash"
+    args = [
+        "-c",
+        "cp '{{ "{{" }} .Target {{ "}}" }}' '{{ "{{" }} .Target {{ "}}" }}.base' && code --new-window --wait --merge '{{ "{{" }} .Destination {{ "}}" }}' '{{ "{{" }} .Target {{ "}}" }}' '{{ "{{" }} .Target {{ "}}" }}.base' '{{ "{{" }} .Source {{ "}}" }}'",
+    ]
+{{ end -}}

@@ -1,0 +1,48 @@
+# Chezmoi ignore file
+
+# Files and patterns listed here will not be managed by chezmoi
+
+# Documentation
+
+README.md
+CLAUDE.md
+QUICK_REFERENCE.md
+docs/
+
+# Version control
+
+.git/
+.gitignore
+
+# Editor files
+
+.vscode/
+.idea/
+_.swp
+_.swo
+\*~
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Test files
+
+test/
+tests/
+\*.test
+
+# Temporary files
+
+_.tmp
+_.bak
+
+# Backup/archive directories (not managed by chezmoi)
+
+bak/
+
+# macOS: don't manage app support/library configs
+{{ if eq .chezmoi.os "darwin" -}}
+Library/
+{{- end }}

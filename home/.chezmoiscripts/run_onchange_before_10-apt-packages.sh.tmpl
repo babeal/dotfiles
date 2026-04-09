@@ -1,0 +1,43 @@
+{{- if and (eq .chezmoi.os "linux") .install_packages -}}
+
+#!/usr/bin/env bash
+
+{{ template "shared_script_utils.bash" . }}
+
+packages=(
+    {{ range $package := .packages.apt.common.packages }}
+    "{{ $package }}"
+    {{ end }}
+
+    {{ if .dev_computer }}
+    {{ range $package := .packages.apt.dev.packages }}
+    "{{ $package }}"
+    {{ end }}
+    {{ end }}
+    
+    {{ if .personal_computer }}
+    {{ range $package := .packages.apt.personal.packages }}
+    "{{ $package }}"
+    {{ end }}
+    {{ end }}
+)
+
+header "Installing packages with apt"
+sudo apt-get update
+
+for package in "${packages[@]}"; do
+    if sudo dpkg-query -l | awk {'print $2'} | grep -E "^${package}$" &>/dev/null; then
+        info "Package ${package} is already installed"
+        continue
+    fi
+    if apt-cache search --names-only "^${package}$" | grep "${package}" &>/dev/null; then
+        sudo apt-get install -y --no-upgrade ${package}
+    else
+        warning "Package ${package} is not available in apt"
+    fi
+done
+
+success "Apt packages installed"
+_safeExit_
+
+{{- end }}

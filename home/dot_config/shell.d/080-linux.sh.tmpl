@@ -1,0 +1,43 @@
+{{- if eq .chezmoi.os "linux" }}
+
+# Run startup scripts
+
+if [[ -f "{{ .directories.user_bin_dir }}/linux-startup.sh" ]]; then
+    "${HOME}"/bin/linux-startup.sh
+fi
+
+# Aliases and Functions
+
+alias sag='sudo apt-get'
+
+aup() {
+    # List available updated from apt-get
+
+    sudo apt update
+    apt list --upgradable
+}
+
+# Systemctl aliases
+
+alias ctl='systemctl'
+alias reboot="sudo systemctl reboot"
+alias sstop="sudo systemctl stop"
+alias sstatus="sudo systemctl status"
+
+# Start and then view status of service
+sstart() {
+    sstart systemctl start "$1"
+    sudo systemctl status "$1"
+}
+
+# Restart and then view status of service
+srestart() {
+    sudo systemctl restart "$1"
+    sudo systemctl status "$1"
+}
+
+# Journalctl aliases
+alias logs='sudo journalctl -fu'
+alias logs-all='sudo journalctl -u'
+
+{{- end }}

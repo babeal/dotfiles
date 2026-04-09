@@ -1,0 +1,34 @@
+
+# Private directories
+logs/
+reference/
+docs/plans/
+docs/specs/
+docs/bak/
+
+# Chezmoi state
+.chezmoi/
+
+# Git
+.worktree/
+.worktrees/
+
+# Claude
+.claude/settings.local.json
+.claude/worktrees/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+

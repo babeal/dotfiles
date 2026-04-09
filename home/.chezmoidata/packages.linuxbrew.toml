@@ -1,0 +1,20 @@
+# Linuxbrew (Homebrew on Linux) package definitions
+# Formulae only — no casks on Linux
+# Only packages not available (or too outdated) in apt
+
+[packages.linuxbrew]
+
+    [packages.linuxbrew.common]
+        taps = []
+        formulae = []
+
+    [packages.linuxbrew.dev]
+        taps = []
+        formulae = [
+            {name = "mise"},
+            {name = "starship"},
+        ]
+
+    [packages.linuxbrew.personal]
+        taps = []
+        formulae = []

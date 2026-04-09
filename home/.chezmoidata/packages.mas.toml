@@ -1,0 +1,18 @@
+# Mac App Store package definitions
+# Uses inline table format {name = "...", id = 123456}
+# Note: MAS installs require being signed in to the App Store
+
+[packages.mas]
+
+    [packages.mas.common]
+        apps = [
+            {name = "Amphetamine", id = 937984704},    # Keep-awake utility
+            {name = "Maccy", id = 1527619437},         # Clipboard manager
+            {name = "OmniFocus 4", id = 1542143627},   # Task manager
+        ]
+
+    [packages.mas.dev]
+        apps = []
+
+    [packages.mas.personal]
+        apps = []

@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/)",
+      "Write(/)",
+      "Grep",
+      "Edit(/)",
+      "Bash(*)",
+      "Bash(ssh *)",
+      "Bash(prlctl *)",
+      "Fetch",
+      "Bash(./test.sh ubuntu test)",
+      "Bash(docker compose)",
+      "mcp__google-search__google_search",
+      "mcp__google-search__extract_webpage_content",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__context7__query-docs",
+      "Bash(echo *)",
+      "Bash(rsync *)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "respectGitignore": false
+}

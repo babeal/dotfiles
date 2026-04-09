@@ -1,0 +1,41 @@
+alias cp='cp -iv'
+alias grep='grep --color=always'
+alias mkdir='mkdir -pv'
+alias mv='mv -iv'
+alias shfmt="shfmt -ci -bn -i 2"       # dev: Preferred shellformat implementation
+
+{{- if lookPath "most" }}
+alias less="most"
+alias more="most"
+PAGER="most"
+MANPAGER="most"
+{{- else }}
+[ -e "{{ .directories.user_bin_dir }}/lessfilter.sh" ] && export LESSOPEN="|{{ .directories.user_bin_dir }}/lessfilter.sh %s"
+alias less='less -RXqeF'
+alias more='less -RXqeNF'
+{{- end -}}
+
+{{- if lookPath "gping" }}
+alias ping="gping"
+{{- else if lookPath "prettyping" }}
+alias ping="prettyping --nolegend"
+{{- end }}
+
+{{- if lookPath "btm" }}
+alias top="btm" # Prefer `bottom` over `top`
+{{- end }}
+
+{{- if lookPath "bat" }}
+alias cat="bat" # Prefer `bat` over `cat`
+{{- end }}
+
+{{- if lookPath "dig" }}
+{{- else if lookPath "drill" }}
+alias dig='drill'
+{{ end }}
+
+cd() {
+    # Always print contents of directory when entering
+    builtin cd "$@" || return 1
+    ll
+}

@@ -1,0 +1,28 @@
+# Ignore unnecessary cruft from OS
+
+.DS_Store
+.Trash-\*
+.AppleDouble
+.LSOverride
+Thumbs.db
+Thumbs.db:encryptable
+
+# Git specific
+
+.worktree/
+.worktrees/
+
+# Secrets
+
+.env.secret
+.env.secrets
+
+# Caches
+
+\*\_cache/
+.cache/
+**pycache**/
+
+# Agents
+
+.claude/.settings.local.json

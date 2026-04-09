@@ -1,0 +1,16 @@
+# Test configuration for automated testing.
+#
+# This file is rsync'd to ~/.config/chezmoi/chezmoi.toml on the VM before
+# chezmoi apply runs, so promptStringOnce/promptBoolOnce prompts are skipped.
+#
+# Update these values as prompts are added to .chezmoi.toml.tmpl.
+
+[data]
+    name = "Brandt Beal"
+    email = "babeal@example.com"
+    github_user = "babeal"
+    dev_computer = true
+    personal_computer = true
+    is_server = false
+    install_packages = true
+    use_secrets = false

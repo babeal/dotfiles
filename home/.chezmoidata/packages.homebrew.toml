@@ -1,0 +1,68 @@
+# Homebrew package definitions
+# Uses inline table format {name = "...", extra = "..."}
+# The optional extra field is appended raw after the quoted name in the Brewfile DSL
+
+[packages.homebrew]
+
+    [packages.homebrew.common]
+        taps = []
+        formulae = [
+            {name = "atuin"},
+            {name = "bash"},
+            {name = "bash-completion"},
+            {name = "bitwarden-cli"},
+            {name = "chezmoi"},
+            {name = "coreutils"},
+            {name = "eza"},
+            {name = "fzf"},
+            {name = "gawk"},
+            {name = "git"},
+            {name = "gnu-sed"},
+            {name = "gnu-tar"},
+            {name = "gpg"},
+            {name = "grep"},
+            {name = "jq"},
+            {name = "mas"},
+            {name = "nano"},
+            {name = "ripgrep"},
+            {name = "ssh-copy-id"},
+            {name = "tree"},
+            {name = "vivid"},
+            {name = "wget"},
+            {name = "zsh"},
+        ]
+        casks = [
+            {name = "bitwarden"},
+            {name = "font-jetbrains-mono-nerd-font"},
+            {name = "font-meslo-lg-nerd-font"},
+            {name = "iterm2"},
+            {name = "obsidian"},
+        ]
+
+    [packages.homebrew.dev]
+        taps = []
+        formulae = [
+            {name = "copier"},
+            {name = "gh"},
+            {name = "git-delta"},
+            {name = "git-extras"},
+            {name = "make"},
+            {name = "mise"},
+            {name = "shellcheck"},
+            {name = "shfmt"},
+            {name = "starship"},
+            {name = "sqlite3"},
+        ]
+        casks = [
+            {name = "bruno"},
+            {name = "drawio"},
+            {name = "visual-studio-code"},
+        ]
+
+    [packages.homebrew.personal]
+        taps = []
+        formulae = []
+        casks = [
+            {name = "chatgpt"},
+        ]
+

@@ -1,0 +1,72 @@
+{{- if and (eq .chezmoi.os "darwin") (lookPath "brew") }}
+
+# Set Exports
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+{{/* use_secrets not yet implemented — secrets integration pending
+{{ if .use_secrets -}}
+export HOMEBREW_GITHUB_API_TOKEN={{- onepasswordRead .secrets.homebrew_github_token }}
+{{ end }}
+*/}}
+
+# Set homebrew paths for GNU utilities
+_homebrewPaths=(
+    "$(brew --prefix)/opt/coreutils/libexec/gnubin"
+    "$(brew --prefix)/opt/findutils/libexec/gnubin"
+    "$(brew --prefix)/opt/gnu-getopt/bin"
+    "$(brew --prefix)/opt/gnu-sed/libexec/gnubin"
+    "$(brew --prefix)/opt/gnu-tar/libexec/gnubin"
+    "$(brew --prefix)/opt/grep/libexec/gnubin"
+)
+
+for _path in "${_homebrewPaths[@]}"; do
+    if [[ -d ${_path} ]]; then
+        if ! printf "%s" "${_path}" | grep -q "${PATH}"; then
+            PATH="${_path}:${PATH}"
+        fi
+    fi
+done
+
+# shellcheck disable=SC1091
+if [[ -n ${BASH} ]] && [ -f "/usr/local/etc/profile.d/bash_completion.sh" ]; then
+    source "/usr/local/etc/profile.d/bash_completion.sh"
+fi
+
+if [ -f "$(brew --repository)/bin/src-hilite-lesspipe.sh" ]; then
+    export LESSOPEN
+    LESSOPEN="| $(brew --repository)/bin/src-hilite-lesspipe.sh %s"
+    export LESS=' -R -z-4'
+fi
+
+
+# Aliases
+
+alias brwe='brew'                      # Fix common typo
+alias brewtop="brew leaves -r"         # Show only top-level manually installed packages
+alias brewuses="brew uses --installed" # Show all packages depending on a [package]
+alias brewdeps="brew deps --tree"      # Show all dependencies of a [package]
+
+bup() {
+    if command -v brewup >/dev/null 2>&1; then
+        args="$*"
+        if (("${#args[@]}" == 0)); then
+            brewup
+        else
+            # shellcheck disable=SC2048,SC2086
+            brewup $*
+        fi
+    elif command -v brew >/dev/null 2>&1; then
+        local brewScript="{{ .directories.user_bin_dir }}/updateHomebrew"
+        if [ -e "${brewScript}" ]; then
+            "${brewScript}" "$*"
+        else
+            brew update
+            brew upgrade
+            brew cleanup
+            brew autoremove
+        fi
+    else
+        echo "brew not found"
+    fi
+}
+{{- end }}

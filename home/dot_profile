@@ -1,0 +1,6 @@
+# ~/.profile - sourced by POSIX login shells
+[ -f "$HOME/.config/shell/path.sh" ] && . "$HOME/.config/shell/path.sh"
+[ -f "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
+
+# Install Homebrew
+command -v brew >/dev/null 2>&1 && eval "$(brew shellenv)"

@@ -1,0 +1,4 @@
+# Prevent Ubuntu/Debian system zshrc (/etc/zsh/zshrc) from calling compinit
+# before the user .zshrc. We call compinit ourselves with a custom -d path
+# to keep .zcompdump out of $HOME.
+skip_global_compinit=1

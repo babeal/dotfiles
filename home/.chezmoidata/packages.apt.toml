@@ -1,0 +1,34 @@
+# APT package definitions (Debian/Ubuntu)
+
+[packages.apt]
+
+    [packages.apt.common]
+        packages = [
+            "bat",        # Cat with syntax highlighting
+            "curl",
+            "dnsutils",   # DNS utilities (dig, nslookup)
+            "eza",        # Modern ls replacement with more features and better defaults
+            "figlet",     # ASCII art text generator
+            "findutils",  # GNU find, xargs, and locate
+            "fzf",        # Command-line fuzzy finder
+            "git",
+            "gnupg",      # GNU Privacy Guard
+            "gpg",        # OpenPGP encryption
+            "jq",         # Lightweight command-line JSON processor
+            "logrotate",  # Log file rotation utility
+            "lolcat",     # Rainbow coloring for text
+            "nano",
+            "net-tools",  # Network tools (ifconfig, netstat)
+            "ripgrep",
+            "unzip",
+            "wget",
+            "zsh",
+        ]
+
+    [packages.apt.dev]
+        packages = [
+            "git-extras",  # Extra git commands
+        ]
+
+    [packages.apt.personal]
+        packages = []

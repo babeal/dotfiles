@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+    *) return ;;
+esac
+[ -z "$PS1" ] && return
+
+# Ensure PATH and env are set even in non-login shells
+[ -f "$HOME/.config/shell/path.sh" ] && . "$HOME/.config/shell/path.sh"
+[ -f "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
+
+# set default umask
+umask 002
+
+if [ -f "${HOME}/.dotfiles.pre.local" ]; then
+    # shellcheck disable=SC1091
+    source "${HOME}/.dotfiles.pre.local"
+fi
+
+### SOURCE BASH PLUGINS ###
+
+if [[ ! -d "{{ .xdgStateDir }}/bash/" ]]; then
+    mkdir -p "{{ .xdgStateDir }}/bash/"
+fi
+
+# Locations containing files *.bash to be sourced to your environment
+configFileLocations=(
+    "{{ .xdgConfigDir }}/shell.d"
+)
+
+for configFileLocation in "${configFileLocations[@]}"; do
+    if [ -d "${configFileLocation}" ]; then
+        while read -r configFile; do
+            # shellcheck disable=SC1090
+            source "${configFile}"
+        done < <(find "${configFileLocation}" \
+            -maxdepth 2 \
+            -type f \
+            -name '*.bash' \
+            -o -name '*.sh' \
+            | sort)
+    fi
+done
+
+if [ -f "${HOME}/.dotfiles.post.local" ]; then
+    # shellcheck disable=SC1091
+    source "${HOME}/.dotfiles.post.local"
+fi
+
+alias sourcea='source ${HOME}/.bashrc' # Source this file to apply changes

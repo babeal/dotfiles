@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ci.yml"
+      - ".chezmoiroot"
+      - "home/**"
+      - "setup.sh"
+      - "tests/e2e/config/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/ci.yml"
+      - ".chezmoiroot"
+      - "home/**"
+      - "setup.sh"
+      - "tests/e2e/config/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Copy repository to chezmoi source dir
+        run: |
+          if [ -d /home/runner ]; then HOMEDIR="/home/runner"; else HOMEDIR="/Users/runner"; fi
+          mkdir -p "${HOMEDIR}/.local/share/chezmoi"
+          cp -a . "${HOMEDIR}/.local/share/chezmoi"
+
+      - name: Create chezmoi config
+        run: |
+          if [ -d /home/runner ]; then HOMEDIR="/home/runner"; else HOMEDIR="/Users/runner"; fi
+          mkdir -p "${HOMEDIR}/.config/chezmoi"
+          cat > "${HOMEDIR}/.config/chezmoi/chezmoi.toml" << EOF
+          [data]
+              name              = "CI Test"
+              email             = "ci@example.com"
+              github_user       = "babeal"
+              dev_computer      = false
+              personal_computer = false
+              is_server         = false
+              install_packages  = false
+              use_secrets       = false
+              xdgCacheDir       = "${HOMEDIR}/.cache"
+              xdgConfigDir      = "${HOMEDIR}/.config"
+              xdgDataDir        = "${HOMEDIR}/.local/share"
+              xdgStateDir       = "${HOMEDIR}/.local/state"
+          EOF
+          # CI detection uses env "CI" (set by GitHub Actions) — see docs/design/ci-detection.md
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)"
+
+      - name: Run chezmoi apply
+        run: ./bin/chezmoi apply --no-tty
+
+      - name: Verify dotfiles (Ubuntu)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          HOMEDIR="/home/runner"
+          for f in .zshrc .bashrc .config/git/config; do
+            [ -f "${HOMEDIR}/${f}" ] || { echo "FAIL: ${f} missing"; exit 1; }
+          done
+          [ -f "${HOMEDIR}/.config/shell.d/080-linux.sh" ] || { echo "FAIL: 080-linux.sh missing"; exit 1; }
+          [ -f "${HOMEDIR}/.config/shell.d/080-macos.sh" ] && { echo "FAIL: 080-macos.sh present on linux"; exit 1; } || true
+          [ -d "${HOMEDIR}/.ssh" ] || { echo "FAIL: ~/.ssh directory missing"; exit 1; }
+          SSH_MODE=$(stat -c '%a' "${HOMEDIR}/.ssh")
+          [ "${SSH_MODE}" = "700" ] || { echo "FAIL: ~/.ssh mode is ${SSH_MODE}, expected 700"; exit 1; }
+          echo "PASS: all Ubuntu checks passed"
+
+      - name: Verify dotfiles (macOS)
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          HOMEDIR="/Users/runner"
+          for f in .zshrc .bashrc .config/git/config; do
+            [ -f "${HOMEDIR}/${f}" ] || { echo "FAIL: ${f} missing"; exit 1; }
+          done
+          [ -f "${HOMEDIR}/.config/shell.d/080-macos.sh" ] || { echo "FAIL: 080-macos.sh missing"; exit 1; }
+          [ -f "${HOMEDIR}/.config/shell.d/080-linux.sh" ] && { echo "FAIL: 080-linux.sh present on macos"; exit 1; } || true
+          [ -d "${HOMEDIR}/.ssh" ] || { echo "FAIL: ~/.ssh directory missing"; exit 1; }
+          SSH_MODE=$(stat -f '%A' "${HOMEDIR}/.ssh")
+          [ "${SSH_MODE}" = "700" ] || { echo "FAIL: ~/.ssh mode is ${SSH_MODE}, expected 700"; exit 1; }
+          echo "PASS: all macOS checks passed"

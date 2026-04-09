@@ -1,0 +1,39 @@
+# ~/.config/shell/path.sh
+# Static PATH construction. Safe to source in any context.
+# Uses a helper function to prevent duplicate PATH entries.
+
+_path_prepend() {
+    [ -d "$1" ] || return 0
+    case ":$PATH:" in
+        *":$1:"*) ;;
+        *) PATH="$1:$PATH" ;;
+    esac
+}
+
+# Tool bins (lower priority, prepended first)
+_path_prepend "{{ .xdgDataDir }}/cargo/bin"
+_path_prepend "${HOME}/.atuin/bin"
+
+# Homebrew (macOS and Linuxbrew)
+{{ if eq .chezmoi.os "darwin" -}}
+if [ -d /opt/homebrew/bin ]; then
+    _path_prepend /opt/homebrew/sbin
+    _path_prepend /opt/homebrew/bin
+fi
+{{- else if eq .chezmoi.os "linux" -}}
+_path_prepend /usr/bin/snap
+_path_prepend /usr/local/bin
+_path_prepend /home/linuxbrew/.linuxbrew/sbin
+_path_prepend /home/linuxbrew/.linuxbrew/bin
+{{- end }}
+
+# mise shims - available to non-interactive processes (IDEs, scripts, Obsidian)
+# mise activate removes this from PATH in interactive shells to avoid double-wrapping
+_path_prepend "${HOME}/.local/share/mise/shims"
+
+# User-local bins (highest priority, prepended last)
+_path_prepend "{{ .directories.user_bin_dir }}"
+_path_prepend "${HOME}/.local/bin"
+
+export PATH
+unset -f _path_prepend

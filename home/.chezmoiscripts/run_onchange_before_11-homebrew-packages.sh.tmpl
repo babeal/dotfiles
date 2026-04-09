@@ -1,0 +1,77 @@
+{{- if and (eq .chezmoi.os "darwin") .install_packages -}}
+#!/usr/bin/env bash
+
+{{ template "shared_script_utils.bash" . }}
+
+header "Install Homebrew packages"
+
+set +e
+brew update
+set -e
+
+set +e
+brew bundle --no-upgrade --file=/dev/stdin <<EOF
+cask_args appdir: "/Applications", require_sha: true
+
+{{/* Taps */}}
+{{ range .packages.homebrew.common.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ if .dev_computer -}}
+{{ range .packages.homebrew.dev.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ end -}}
+{{ if .personal_computer -}}
+{{ range .packages.homebrew.personal.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+{{/* Formulae */}}
+{{ range .packages.homebrew.common.formulae -}}
+brew {{ .name | quote }}{{ if index . "extra" }}, {{ index . "extra" }}{{ end }}
+{{ end -}}
+{{ if .dev_computer -}}
+{{ range .packages.homebrew.dev.formulae -}}
+brew {{ .name | quote }}{{ if index . "extra" }}, {{ index . "extra" }}{{ end }}
+{{ end -}}
+{{ end -}}
+{{ if .personal_computer -}}
+{{ range .packages.homebrew.personal.formulae -}}
+brew {{ .name | quote }}{{ if index . "extra" }}, {{ index . "extra" }}{{ end }}
+{{ end -}}
+{{ end -}}
+
+{{/* Casks - skipped in CI */}}
+{{ if eq (env "CI") "" -}}
+{{ range .packages.homebrew.common.casks -}}
+cask {{ .name | quote }}{{ if index . "extra" }}, {{ index . "extra" }}{{ end }}
+{{ end -}}
+{{ if .dev_computer -}}
+{{ range .packages.homebrew.dev.casks -}}
+cask {{ .name | quote }}{{ if index . "extra" }}, {{ index . "extra" }}{{ end }}
+{{ end -}}
+{{ end -}}
+{{ if .personal_computer -}}
+{{ range .packages.homebrew.personal.casks -}}
+cask {{ .name | quote }}{{ if index . "extra" }}, {{ index . "extra" }}{{ end }}
+{{ end -}}
+{{ end -}}
+{{ end -}}
+EOF
+_bundle_exit=$?
+set -e
+
+if [[ $_bundle_exit -ne 0 ]]; then
+    warning "Some Homebrew packages failed to install — review output above"
+    mkdir -p "${HOME}/.local/state/dotfiles"
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") homebrew-bundle exit=${_bundle_exit}" \
+        >> "${HOME}/.local/state/dotfiles/install-failures.log"
+fi
+
+success "Homebrew packages complete"
+
+_safeExit_
+
+{{- end }}

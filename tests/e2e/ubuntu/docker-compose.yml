@@ -1,0 +1,13 @@
+services:
+  ubuntu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: ${USERNAME:-brandt}
+    image: dotfiles-test-ubuntu:latest
+    volumes:
+      - ../../../:/tmp/dotfiles-source:ro
+    stdin_open: true
+    tty: true
+    container_name: dotfiles-test-ubuntu

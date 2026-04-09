@@ -1,0 +1,63 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+# Top-level format: items only show up if they are active/relevant
+format = """
+$character\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$gcloud\
+$python\
+$cmd_duration\
+$line_break\
+» """
+
+[character]
+success_symbol = "[●](bold blue)"
+error_symbol = "[●](bold red)"
+
+[directory]
+truncation_length = 2
+style = "bold white"
+format = '[$path]($style) '
+
+
+[fill]
+symbol = ' '
+
+[git_branch]
+symbol = ""
+style = "dimmed white"
+format = '\[[$branch]($style) '
+
+[git_status]
+style = "red"
+format = '([$modified]($style))\] '
+modified = "●"
+
+# Hide everything else to keep the 'dirty dot' look
+stashed = ""
+ahead = ""
+behind = ""
+diverged = ""
+untracked = ""
+deleted = ""
+renamed = ""
+staged = ""
+
+[gcloud]
+format = '\[$symbol [$project]($style)\] '
+style = "bold cyan"
+symbol = '[󱇶](cyan)'
+
+[python]
+format = '\[[$symbol $version]($style)\] '
+style = "green"
+symbol = ""
+
+[cmd_duration]
+min_time = 2000
+format = "[⏱ $duration]($style) "

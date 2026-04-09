@@ -1,0 +1,2 @@
+# ~/.zprofile - zsh login shells
+[ -f "$HOME/.profile" ] && . "$HOME/.profile"

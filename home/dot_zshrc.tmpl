@@ -1,0 +1,104 @@
+#!/usr/bin/env zsh
+
+# This zshrc file uses zinit as a zsh plugin manager.
+# More information: https://github.com/zdharma-continuum/zinit
+
+# If not running interactively, don't do anything
+#############################################
+case $- in
+    *i*) ;;
+    *) return ;;
+esac
+[ -z "$PS1" ] && return
+
+# Ensure PATH and env are set even in non-login shells
+#############################################
+[ -f "$HOME/.config/shell/path.sh" ] && . "$HOME/.config/shell/path.sh"
+[ -f "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
+
+
+if [ -f "${HOME}/.dotfiles.pre.local" ]; then
+    # shellcheck disable=SC1091
+    source "${HOME}/.dotfiles.pre.local"
+fi
+
+# duplicates slow down searching
+#############################################
+builtin declare -aU fpath
+builtin declare -aU path
+builtin declare -aU manpath
+# FPATH should not be exported
+builtin declare +x FPATH
+# duplicates slow down searching and
+# mess up OMZ fpath check if should remove zcompdump
+fpath=(${(u)fpath})
+path=(${(u)path})
+manpath=(${(u)manpath})
+
+# If zsh is emulating another shell, don't source .zshrc
+#############################################
+if [[ $0 == 'ksh' ]] || [[ $0 == 'sh' ]]; then
+    source "${HOME}/.shrc"
+    exit
+elif [[ $0 == 'bash' ]]; then
+    source "${HOME}/.bashrc"
+    exit
+fi
+
+unset _myPaths _path
+
+# Create XDG directories
+#############################################
+if [ ! -d "{{ .xdgCacheDir }}/zsh" ]; then
+    mkdir -p "{{ .xdgCacheDir }}/zsh"
+fi
+if [ ! -d "{{ .xdgDataDir }}/zsh" ]; then
+    mkdir -p "{{ .xdgDataDir }}/zsh"
+fi
+if [ ! -d "{{ .xdgStateDir }}/zsh" ]; then
+    mkdir -p "{{ .xdgStateDir }}/zsh"
+fi
+if [ ! -d "{{ .xdgDataDir }}/zsh/completions" ]; then
+    mkdir -p "{{ .xdgDataDir }}/zsh/completions"
+fi
+fpath+={{ .xdgDataDir }}/zsh/completions
+
+{{ if eq .chezmoi.os "darwin" -}}
+if type brew &>/dev/null; then
+    fpath+="$(brew --prefix)/share/zsh/site-functions"
+fi
+{{- end }}
+
+# SOURCE Dotfiles
+#############################################
+
+# Files containing files *.zsh or *.sh to be sourced to your environment
+configFileLocations=(
+    "{{ .xdgConfigDir }}/shell.d"
+)
+
+for configFileLocation in "${configFileLocations[@]}"; do
+    if [ -d "${configFileLocation}" ]; then
+        while read -r configFile; do
+            source "${configFile}"
+        done < <(find "${configFileLocation}" \
+            -maxdepth 2 \
+            -type f \
+            -name '*.zsh' \
+            -o -name '*.sh' | sort)
+    fi
+done
+
+unset configFileLocations configFileLocation
+
+# Load Completions — after shell.d so all fpath additions from plugins are included
+#############################################
+autoload -Uz compinit
+compinit -d "{{ .xdgCacheDir }}/zsh/zcompdump-${ZSH_VERSION}"
+
+# Allow for local configuration not managed by chezmoi
+if [ -f "${HOME}/.dotfiles.post.local" ]; then
+    source "${HOME}/.dotfiles.post.local"
+fi
+
+alias sourcea='source ${HOME}/.zshrc' # Source this file to apply changes in the current shell

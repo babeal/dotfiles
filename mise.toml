@@ -1,0 +1,10 @@
+# mise configuration for dotfiles repo
+# https://mise.jdx.dev/tasks/
+
+[tasks.shell-lint]
+description = "Lint shell scripts with shellcheck"
+run = "find . -name '*.sh' -not -name '*.sh.tmpl' -not -path './reference/*' -not -path './.claude/*' -print0 | xargs -0 shellcheck"
+
+[tasks.shell-format]
+description = "Format shell scripts with shfmt (writes in place)"
+run = "find . -name '*.sh' -not -name '*.sh.tmpl' -not -path './reference/*' -not -path './.claude/*' -print0 | xargs -0 shfmt -w -i 4"
