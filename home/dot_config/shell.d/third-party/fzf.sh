@@ -3,7 +3,7 @@
 if [[ "$(command -v fzf)" ]] && [[ -n ${ZSH_NAME} ]]; then
     fzf_version_minor=$(fzf --version | awk '{print $1}' | cut -d. -f2)
 
-    if [[ $fzf_version_minor -ge 47 ]]; then
+    if [[ $fzf_version_minor -ge 48 ]]; then
         eval "$(fzf --zsh)"
     elif [ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]; then
         source /usr/share/doc/fzf/examples/key-bindings.zsh
@@ -14,7 +14,14 @@ if [[ "$(command -v fzf)" ]] && [[ -n ${ZSH_NAME} ]]; then
     fi
 
 elif [[ "$(command -v fzf)" ]] && [[ -n ${BASH} ]]; then
-    eval "$(fzf --bash)"
+    fzf_version_minor=$(fzf --version | awk '{print $1}' | cut -d. -f2)
+
+    if [[ $fzf_version_minor -ge 48 ]]; then
+        eval "$(fzf --bash)"
+    elif [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
+        source /usr/share/doc/fzf/examples/key-bindings.bash
+    fi
+    unset fzf_version_minor
 fi
 
 # Configure fzf

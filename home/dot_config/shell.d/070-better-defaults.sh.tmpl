@@ -37,5 +37,9 @@ alias dig='drill'
 cd() {
     # Always print contents of directory when entering
     builtin cd "$@" || return 1
-    ll
+    if [ -n "$ZSH_VERSION" ]; then
+        ll
+    else
+        ls -alFh
+    fi
 }
