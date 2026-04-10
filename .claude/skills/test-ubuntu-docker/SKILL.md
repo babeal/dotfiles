@@ -106,7 +106,7 @@ bash "$SCRIPTS/copy.sh" "$COMPOSE_FILE" "$USERNAME" "$CONFIG"
 
 # 2. Re-init and apply
 docker compose -f "$COMPOSE_FILE" exec -T ubuntu \
-  zsh -c 'chezmoi init --apply --no-tty 2>&1'
+  zsh -l -c 'chezmoi init --apply --no-tty 2>&1'
 ```
 
 ### Verify Only
