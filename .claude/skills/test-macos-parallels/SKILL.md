@@ -32,7 +32,7 @@ Test chezmoi configs are in `tests/e2e/config/`. Default is `default.toml` unles
 
 ## Scripts
 
-All scripts are in `.claude/skills/test-macos/scripts/`.
+All scripts are in `${CLAUDE_SKILL_DIR}/scripts/`.
 
 | Script              | Usage                                                          |
 | ------------------- | -------------------------------------------------------------- |
@@ -80,7 +80,7 @@ TARGET="${SSH_USER}@${IP}"
 
 REPO_ROOT="$(pwd)"
 CONFIG="$REPO_ROOT/tests/e2e/config/<config_name>.toml"
-SCRIPTS="$REPO_ROOT/.claude/skills/test-macos/scripts"
+SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
 ```
 
 ### Full Test (clean slate from Base snapshot)
@@ -161,7 +161,7 @@ bash "$SCRIPTS/verify.sh" "$IP" "$SSH_USER" "$SSH_KEY"
 Determine the next log file path before starting work by running the helper script:
 
 ```bash
-LOG_FILE=$(bash .claude/skills/test-macos/scripts/get-log-number.sh)
+LOG_FILE=$(bash "${CLAUDE_SKILL_DIR}/scripts/get-log-number.sh")
 ```
 
 The script infers the repo root from its own location, so it works on any machine or path. You may also pass an explicit log directory as the first argument if needed.

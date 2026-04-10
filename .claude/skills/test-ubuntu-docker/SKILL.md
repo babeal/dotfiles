@@ -36,7 +36,7 @@ Test chezmoi configs are in `tests/e2e/config/`. Default is `default.toml` unles
 
 ## Scripts
 
-All scripts are in `.claude/skills/test-ubuntu-docker/scripts/`.
+All scripts are in `${CLAUDE_SKILL_DIR}/scripts/`.
 
 | Script              | Usage                                             |
 | ------------------- | ------------------------------------------------- |
@@ -69,7 +69,7 @@ USER_HOME="/home/${USERNAME}"
 REPO_ROOT="$(pwd)"
 COMPOSE_FILE="$REPO_ROOT/tests/e2e/ubuntu/docker-compose.yml"
 CONFIG="$REPO_ROOT/tests/e2e/config/<config_name>.toml"
-SCRIPTS="$REPO_ROOT/.claude/skills/test-ubuntu-docker/scripts"
+SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
 ```
 
 ### Full Test (clean container)
@@ -141,7 +141,7 @@ bash "$SCRIPTS/verify.sh" "$COMPOSE_FILE" "$USERNAME"
 Determine the next log file path before starting work by running the helper script:
 
 ```bash
-LOG_FILE=$(bash .claude/skills/test-ubuntu-docker/scripts/get-log-number.sh)
+LOG_FILE=$(bash "${CLAUDE_SKILL_DIR}/scripts/get-log-number.sh")
 ```
 
 Write the log:
