@@ -29,6 +29,7 @@
             {name = "nano"},
             {name = "ripgrep"},
             {name = "ssh-copy-id"},
+            {name = "tmux"},
             {name = "tree"},
             {name = "vivid"},
             {name = "wget"},

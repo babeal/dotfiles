@@ -22,6 +22,7 @@
             "net-tools",  # Network tools (ifconfig, netstat)
             "ripgrep",
             "sudo",
+            "tmux",
             "tzdata",     # Timezone data
             "unzip",
             "wget",

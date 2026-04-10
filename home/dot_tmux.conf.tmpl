@@ -1,0 +1,70 @@
+# Terminal
+set -g default-terminal "tmux-256color"
+set -ag terminal-overrides ",xterm-256color:RGB"
+
+# Clipboard (OSC 52, tmux 3.2+)
+# Requires terminal emulator support; iTerm2 needs "Applications in terminal
+# may access clipboard" enabled in Preferences → General
+set -g set-clipboard on
+
+# Mouse
+set -g mouse on
+
+# History
+set -g history-limit 100000
+
+# Start windows and panes at 1
+set -g base-index 1
+setw -g pane-base-index 1
+set -g renumber-windows on
+
+# Copy mode
+setw -g mode-keys vi
+
+# Unbind default prefix
+unbind C-b
+
+# Keybindings
+bind c new-window -c "#{pane_current_path}"
+bind 2 split-window -vc "#{pane_current_path}"
+bind 3 split-window -hc "#{pane_current_path}"
+bind C-p select-pane -U
+bind C-n select-pane -D
+bind C-k kill-pane
+bind k kill-window
+bind C-r source-file ~/.tmux.conf \; display-message "Config reloaded"
+
+{{- if .is_server }}
+
+set -g prefix C-a
+bind C-a send-prefix
+
+# Allow OSC 52 clipboard sequences to pass through to the outer terminal
+# when connecting to this server over SSH
+set -g allow-passthrough on
+
+{{- else }}
+
+set -g prefix C-z
+bind C-z send-prefix
+
+# Status bar (built-in, no external tools)
+set -g status on
+set -g status-interval 5
+set -g status-left " #S "
+set -g status-right " %Y-%m-%d  %H:%M "
+
+{{- end }}
+{{- if eq .chezmoi.os "darwin" }}
+
+# Required for Touch ID sudo to work inside tmux (tmux 3.3+ disables passthrough
+# by default for security; this re-enables it for the local macOS session)
+# Also required for OSC 52 clipboard to reach iTerm2/WezTerm in nested contexts
+set -g allow-passthrough on
+
+{{- else if eq .chezmoi.os "linux" }}
+
+# Ensure zsh is used (login shell may default to bash on fresh systems)
+set-option -g default-shell /usr/bin/zsh
+
+{{- end }}

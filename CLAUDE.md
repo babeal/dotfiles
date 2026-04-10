@@ -8,6 +8,12 @@ Cross-platform dotfiles system using [chezmoi](https://www.chezmoi.io/) for macO
 **Secrets**: Bitwarden CLI (not yet implemented — keep `use_secrets = false`).
 **Target platforms**: macOS, Debian Linux.
 
+## Docs
+
+- `docs/adr/` — Architecture Decision Records; authoritative decisions about how this project works
+- `docs/design/` — Design documents for specific subsystems
+- `docs/specs/` — Temporary implementation specs; written before implementation and may drift from reality over time. **Do not consult specs when making decisions unless explicitly told to.**
+
 ## Chezmoi Basics
 
 File naming conventions:
