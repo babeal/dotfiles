@@ -34,7 +34,7 @@ For work machines, where packages installation is restricted, you can install ch
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply babeal
 ```
 
-- or -
+or:
 
 ```console
 chezmoi init --apply babeal
