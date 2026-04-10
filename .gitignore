@@ -18,7 +18,6 @@ docs/bak/
 .claude/worktrees/
 
 # Editor
-.vscode/
 .idea/
 *.swp
 *.swo
