@@ -8,6 +8,7 @@
             "curl",
             "dnsutils",   # DNS utilities (dig, nslookup)
             "eza",        # Modern ls replacement with more features and better defaults
+            "fd-find",    # Simple, fast and user-friendly alternative to find
             "figlet",     # ASCII art text generator
             "findutils",  # GNU find, xargs, and locate
             "fzf",        # Command-line fuzzy finder
@@ -20,6 +21,8 @@
             "nano",
             "net-tools",  # Network tools (ifconfig, netstat)
             "ripgrep",
+            "sudo",
+            "tzdata",     # Timezone data
             "unzip",
             "wget",
             "zsh",
