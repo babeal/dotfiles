@@ -2,3 +2,8 @@
 # before the user .zshrc. We call compinit ourselves with a custom -d path
 # to keep .zcompdump out of $HOME.
 skip_global_compinit=1
+
+# Machine-local, unmanaged zshenv override hook (mirrors ~/.dotfiles.post.local).
+# Named ".post" — sourced last so it can override values set above, and so a
+# ".pre" hook can be added at the top later without renaming this one.
+[ -f "$HOME/.zshenv.post.local" ] && . "$HOME/.zshenv.post.local"
