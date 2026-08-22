@@ -20,7 +20,7 @@ fi
 _starship_stale=""
 [ -f "$_starship_init_file" ] && _starship_stale="$(find "$_starship_init_file" -mtime +7 2>/dev/null)"
 if [ ! -f "$_starship_init_file" ] || [ -n "$_starship_stale" ]; then
-    starship init "$_starship_shell" --print-full-init > "$_starship_init_file"
+    starship init "$_starship_shell" --print-full-init >| "$_starship_init_file"
 fi
 
 . "$_starship_init_file"
